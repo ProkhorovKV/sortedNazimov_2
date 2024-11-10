@@ -52,19 +52,7 @@ class Program
 
 
 
-    // Функция для вывода массива
-    private static void PrintArray(int[] arr)
-    {
-        foreach (var item in arr)
-        {
-            Console.Write(item + " ");
-        }
-        Console.WriteLine();
-
-    }
-
-
-
+  
     private static int[] GenerateRandomArray(int size)
     {
         
@@ -81,6 +69,11 @@ class Program
 
 
 
+
+
+
+
+
     // Главная функция для генерации массива и сортировки
     public static void Main()
     {
@@ -89,7 +82,6 @@ class Program
         Console.WriteLine("\n --- Время алгоритма быстрой сортировки --- ");
         foreach (int size in sizes)
         {
-
             int[] arr = GenerateRandomArray(size);
 
             // запуск таймера
@@ -101,22 +93,115 @@ class Program
 
             // остановка таймера
             sw.Stop();
-
-
-
-
             double elapsedSeconds = sw.ElapsedMilliseconds / 1000.0;
+
             Console.WriteLine($"\nВремя сортировки {size} чисел: {elapsedSeconds:F4} секунд.");
 
         }
-        
-        
 
-        
+        Console.WriteLine("\n --- Время алгоритма сортировка вставками --- ");
+        foreach (int size in sizes)
+        {
+            int[] arr = GenerateRandomArray(size);
+
+            // запуск таймера
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            // Сортировка массива с использованием быстрой сортировки
+            InsertionSort(arr);
+
+            // остановка таймера
+            sw.Stop();
+            double elapsedSeconds = sw.ElapsedMilliseconds / 1000.0;
+
+            Console.WriteLine($"\nВремя сортировки {size} чисел: {elapsedSeconds:F4} секунд.");
+
+        }
+
+        Console.WriteLine("\n --- Время алгоритма сортировка выбором --- ");
+        foreach (int size in sizes)
+        {
+            int[] arr = GenerateRandomArray(size);
+
+            // запуск таймера
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            // Сортировка массива с использованием быстрой сортировки
+            SelectionSort(arr);
+
+            // остановка таймера
+            sw.Stop();
+            double elapsedSeconds = sw.ElapsedMilliseconds / 1000.0;
+
+            Console.WriteLine($"\nВремя сортировки {size} чисел: {elapsedSeconds:F4} секунд.");
+
+        }
+
+
+
+
     }
 
 
 
-    
+
+    // Функция сортировки вставками
+    public static void InsertionSort(int[] arr)
+    {
+        int n = arr.Length;
+        for (int i = 1; i < n; i++)
+        {
+            int current = arr[i]; // Текущий элемент
+            int j = i - 1;
+
+            // Перемещаем элементы, которые больше текущего, на одну позицию вперед
+            while (j >= 0 && arr[j] > current)
+            {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+
+            // Вставляем текущий элемент на его правильную позицию
+            arr[j + 1] = current;
+        }
+    }
+
+
+
+
+
+
+
+    // Функция сортировки выбором
+    public static void SelectionSort(int[] arr)
+    {
+        int n = arr.Length;
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            // Ищем минимальный элемент в оставшейся части массива
+            int minIndex = i;
+
+            for (int j = i + 1; j < n; j++)
+            {
+                if (arr[j] < arr[minIndex])
+                {
+                    minIndex = j;
+                }
+            }
+
+            // Меняем местами текущий элемент и минимальный элемент
+            if (minIndex != i)
+            {
+                Swap(ref arr[i], ref arr[minIndex]);
+            }
+        }
+    }
+
+
+
+
 }
 
